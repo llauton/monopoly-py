@@ -8,6 +8,7 @@
 
 # Module Imports
 from random import randint
+import pandas as pd
 
 # Constant Variables
 MAX_PLAYERS = 8
@@ -16,7 +17,7 @@ MAX_PLAYERS = 8
 booBotPlaying = False
 intNumOfPlayers = 0
 
-players = []
+players = [None] * MAX_PLAYERS
 
 # Classes
 class Player:
@@ -39,7 +40,7 @@ def getNumOfPlayers():
     intNumOfPlayers = int(input("Please enter how many players would like to join the game: "))
     booBotPlaying = False
     
-    if (intNumOfPlayers > 8):
+    if (intNumOfPlayers > MAX_PLAYERS):
         print("[GAME MANAGER]: There are too many players. Please reduce the number of players to proceed. ".format(intNumOfPlayers))
         exit()
         
@@ -54,7 +55,7 @@ def getNumOfPlayers():
     elif (intNumOfPlayers < 0):
         print("[GAME MANAGER]: There cannot be less than 0 people playing. It is impossible. ")
 
-    elif (intNumOfPlayers == 8):
+    elif (intNumOfPlayers == MAX_PLAYERS):
         print("[GAME MANAGER]: There are {} players ready to begin playing. ".format(intNumOfPlayers))
     
     elif (intNumOfPlayers < 8):
@@ -70,15 +71,17 @@ def getNumOfPlayers():
 # Creates the players
 def initPlayers(intNumOfPlayers, booBotPlaying):
     for i in range(intNumOfPlayers):
-        p = Player(i)
-        players.append(p)
+        player = Player(i)
+        players.append(player)
+        players.remove(None)
 
     intNumOfBots = MAX_PLAYERS - intNumOfPlayers
 
-    if (intNumOfBots > 0):
+    if (intNumOfBots > 0 and booBotPlaying == True):
         for i in range(intNumOfBots):
-            b = Bot(i)
-            players.append(b)
+            bot = Bot(i)
+            players.append(bot)
+            players.remove(None)
 
     return players
 
@@ -87,5 +90,5 @@ intNumOfPlayers, booBotPlaying = getNumOfPlayers()
 players = initPlayers(intNumOfPlayers, booBotPlaying)
 
 # DEBUGGING
-for p in players:
-    print(p.token)
+
+print(players)
