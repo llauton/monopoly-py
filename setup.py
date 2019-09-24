@@ -12,12 +12,13 @@ import pandas as pd
 
 # Constant Variables
 MAX_PLAYERS = 8
+PLAYER_CSV_FILE = 'players.csv'
 
 # Variables
 booBotPlaying = False
 intNumOfPlayers = 0
 
-players = [None] * MAX_PLAYERS
+players = []
 
 # Classes
 class Player:
@@ -27,7 +28,7 @@ class Player:
         self.properties = []
         self.cards = []
 
-class Bot(Player):
+class Bot:
     def __init__(self, name):
         self.token = "Computer AI ({})".format(name)
         self.cash = 1500
@@ -72,23 +73,23 @@ def getNumOfPlayers():
 def initPlayers(intNumOfPlayers, booBotPlaying):
     for i in range(intNumOfPlayers):
         player = Player(i)
-        players.append(player)
-        players.remove(None)
+        players.append({'Token': player.token, 'Cash': player.cash,
+                        'Properties': player.properties, 'Cards': player.cards})
 
     intNumOfBots = MAX_PLAYERS - intNumOfPlayers
 
     if (intNumOfBots > 0 and booBotPlaying == True):
         for i in range(intNumOfBots):
             bot = Bot(i)
-            players.append(bot)
-            players.remove(None)
+            players.append({'Token': bot.token, 'Cash': bot.cash,
+                        'Properties': bot.properties, 'Cards': bot.cards})
 
-    return players
 
+    __ = pd.DataFrame(players)
+
+    return __
 # Code
 intNumOfPlayers, booBotPlaying = getNumOfPlayers()
 players = initPlayers(intNumOfPlayers, booBotPlaying)
-
-# DEBUGGING
-
-print(players)
+players.to_csv(PLAYER_CSV_FILE)
+print("[SYSTEM]: SUCCESSFULLY SAVED PLAYER CSV FILE")
