@@ -23,6 +23,8 @@ intDifficulty = 1
 arrPlayers = []
 
 # Classes
+
+# The player and bot classes which control only the initialisation of the player and bot
 class Player:
     def __init__(self, name):
         self.token = "Player ({})".format(name)
@@ -37,7 +39,7 @@ class Bot:
         self.properties = []
         self.cards = []
 
-    def setStartingCash(self, intDifficulty):
+    def setStartingCash(self, intDifficulty=1):
         self.cash = self.cash * int(intDifficulty)
         return self.cash
 
@@ -94,7 +96,6 @@ def initPlayers(intNumOfPlayers, booBotPlaying):
             
             arrPlayers.append({'Token': bot.token, 'Cash': bot.setStartingCash(intDifficulty),
                             'Properties': bot.properties, 'Cards': bot.cards})
-            print(bot.setStartingCash(intDifficulty))
                         
     __ = pd.DataFrame(arrPlayers)
 
