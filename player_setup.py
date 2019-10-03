@@ -9,6 +9,7 @@
 # Module Imports
 from random import randint
 import pandas as pd
+import csv
 
 # Constant Variables
 MAX_PLAYERS = 8
@@ -17,8 +18,7 @@ PLAYER_CSV_FILE = 'players.csv'
 # Variables
 booBotPlaying = False
 intNumOfPlayers = 0
-intDifficulty = 'Easy'
-intDifficultyModifier = 1
+intDifficulty = 1
 
 arrPlayers = []
 
@@ -37,15 +37,11 @@ class Bot:
         self.properties = []
         self.cards = []
 
-# Functions
-def selectDifficulty(index):
-    difficulty = {
-            1:'Easy',
-            2:'Medium',
-            3:'Hard'
-        }
+    def setStartingCash(self, intDifficulty):
+        self.cash = self.cash * int(intDifficulty)
+        return self.cash
 
-    return difficulty.get(index, "[ERROR]: Please choose one of the following:\nEasy being '1'\nMedium being '2'\nHard being '3'.")
+# Functions
 
 # Gets the number of players playing the game, the difficulty wished to be played and asks for input to establish
 # whether the player would like to add bots to be added to the game.
@@ -78,16 +74,13 @@ def getNumOfPlayers():
             booBotPlaying = True
         else:
             booBotPlaying = False
-
-    __ = input("Please enter what difficulty you would like to play on (Easy = 1, Medium = 2, Hard = 3): ")
-    intDifficulty = selectDifficulty(__)
-
     
-
-    return intNumOfPlayers, booBotPlaying, intDifficulty
+    return intNumOfPlayers, booBotPlaying
 
 # Creates the players
-def initPlayers(intNumOfPlayers, booBotPlaying, intDifficulty):
+def initPlayers(intNumOfPlayers, booBotPlaying):
+    intDifficulty = input("Please enter what difficulty you would like to play on (Easy = 1, Medium = 2, Hard = 3): ")
+    
     for i in range(intNumOfPlayers):
         player = Player(i)
         arrPlayers.append({'Token': player.token, 'Cash': player.cash,
@@ -98,18 +91,22 @@ def initPlayers(intNumOfPlayers, booBotPlaying, intDifficulty):
     if (intNumOfBots > 0 and booBotPlaying == True):
         for i in range(intNumOfBots):
             bot = Bot(i)
-            arrPlayers.append({'Token': bot.token, 'Cash': bot.cash,
-                        'Properties': bot.properties, 'Cards': bot.cards})
-        
+            
+            arrPlayers.append({'Token': bot.token, 'Cash': bot.setStartingCash(intDifficulty),
+                            'Properties': bot.properties, 'Cards': bot.cards})
+            print(bot.setStartingCash(intDifficulty))
+                        
     __ = pd.DataFrame(arrPlayers)
-    print(__)
 
     return __
+
+def initGame():
+    intNumOfPlayers, booBotPlaying = getNumOfPlayers()
+    arrPlayers = initPlayers(intNumOfPlayers, booBotPlaying)
+    arrPlayers.to_csv(PLAYER_CSV_FILE)
+    print("[SYSTEM]: SUCCESSFULLY SAVED PLAYER CSV FILE")
+    
 # Code
-intNumOfPlayers, booBotPlaying, intDifficulty = getNumOfPlayers()
-arrPlayers = initPlayers(intNumOfPlayers, booBotPlaying, intDifficulty)
-arrPlayers.to_csv(PLAYER_CSV_FILE)
-print("[SYSTEM]: SUCCESSFULLY SAVED PLAYER CSV FILE")
+initGame()
 
 # DEBUGGING
-print(selectDifficulty(1))
