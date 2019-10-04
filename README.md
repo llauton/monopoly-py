@@ -1,4 +1,4 @@
-# monopoly=py
+# monopoly-py
 
 Monopoly-py is a python port for Monopoly.
 
