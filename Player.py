@@ -1,4 +1,4 @@
-# Title: Monopoly
+# Title: Monopoly - Players
 # Created by: Leighton Lauton
 # Date: 17/09/2019
 
@@ -13,10 +13,11 @@ import pandas as pd
 import csv
 
 # Constant Variables
-MAX_PLAYERS = 8
-PLAYER_CSV_NAME = 'players.csv'
 PLAYER_CSV_PATH = 'data/'
+PLAYER_CSV_NAME = 'players.csv'
 PLAYER_CSV_FILE = PLAYER_CSV_PATH + PLAYER_CSV_NAME
+
+MAX_PLAYERS = 8
 
 # Variables
 booBotPlaying = False
