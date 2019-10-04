@@ -3,8 +3,9 @@
 # Date: 17/09/2019
 
 # SUMMARY
-# This python file will setup the game with the required amount of cash
-# and the token selection. This will also be used to initialise the banker
+# This python file will set up each player with the required amount of cash
+# and the token selection. The Bot will also be setup based on the difficulty chosen by
+# the players.
 
 # Module Imports
 from random import randint
@@ -13,7 +14,9 @@ import csv
 
 # Constant Variables
 MAX_PLAYERS = 8
-PLAYER_CSV_FILE = 'players.csv'
+PLAYER_CSV_NAME = 'players.csv'
+PLAYER_CSV_PATH = 'data/'
+PLAYER_CSV_FILE = PLAYER_CSV_PATH + PLAYER_CSV_NAME
 
 # Variables
 booBotPlaying = False
@@ -48,7 +51,7 @@ class Bot:
 # Gets the number of players playing the game, the difficulty wished to be played and asks for input to establish
 # whether the player would like to add bots to be added to the game.
 def getNumOfPlayers():
-    intNumOfPlayers = int(input("Please enter how many players would like to join the game: "))
+    intNumOfPlayers = int(input("Please enter how many players would like to join the game. \n>>> "))
     booBotPlaying = False
     
     if (intNumOfPlayers > MAX_PLAYERS):
@@ -57,7 +60,7 @@ def getNumOfPlayers():
         
     elif (intNumOfPlayers == 1):
         print("[GAME MANAGER]: That's sad that you are playing by yourself. ")
-        booBotInclude = input("[GAME MANAGER]: Would you like to include some Computer AI to play as well? (Y/N) ")
+        booBotInclude = input("[GAME MANAGER]: Would you like to include some Computer AI to play as well? (Y/N) \n>>> ")
         if (booBotInclude == "Y") or (booBotInclude == "y"):
             booBotPlaying = True
         else:
@@ -71,7 +74,7 @@ def getNumOfPlayers():
     
     elif (intNumOfPlayers < 8):
         print("[GAME MANAGER]: There are {} players ready to begin playing. ".format(intNumOfPlayers))
-        booBotInclude = input("[GAME MANAGER]: Would you like to include some Computer AI to play as well? (Y/N) ")
+        booBotInclude = input("[GAME MANAGER]: Would you like to include some Computer AI to play as well? (Y/N) \n>>>")
         if (booBotInclude == "Y") or (booBotInclude == "y"):
             booBotPlaying = True
         else:
@@ -81,7 +84,7 @@ def getNumOfPlayers():
 
 # Creates the players
 def initPlayers(intNumOfPlayers, booBotPlaying):
-    intDifficulty = input("Please enter what difficulty you would like to play on (Easy = 1, Medium = 2, Hard = 3): ")
+    intDifficulty = input("Please enter what difficulty you would like to play on. (Easy = 1, Medium = 2, Hard = 3) \nThe difficulty entered will alter the starting cash of the Computer AI.\n>>> ")
     
     for i in range(intNumOfPlayers):
         player = Player(i)
@@ -101,13 +104,8 @@ def initPlayers(intNumOfPlayers, booBotPlaying):
 
     return __
 
-def initGame():
+def addPlayers():
     intNumOfPlayers, booBotPlaying = getNumOfPlayers()
     arrPlayers = initPlayers(intNumOfPlayers, booBotPlaying)
     arrPlayers.to_csv(PLAYER_CSV_FILE)
     print("[SYSTEM]: SUCCESSFULLY SAVED PLAYER CSV FILE")
-    
-# Code
-initGame()
-
-# DEBUGGING
