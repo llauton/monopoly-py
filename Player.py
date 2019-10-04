@@ -10,7 +10,6 @@
 # Module Imports
 from random import randint
 import pandas as pd
-import csv
 
 # Constant Variables
 PLAYER_CSV_PATH = 'data/'

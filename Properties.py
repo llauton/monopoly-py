@@ -21,6 +21,8 @@ PROPERTIES = pd.read_csv(PROPERTY_CSV_FILE)
 # Variables
 arrProperties = []
 
+cash = 100000
+
 # Classes
 class Property:
     def __init__(self):
@@ -30,22 +32,50 @@ class Property:
         self.mortgage = 0
         self.group = ""
 
-        self.house1 = False
-        self.house2 = False
-        self.house3 = False
-        self.house4 = False
-        self.hotel = False
+        self.boughtHouse1 = False      
+        self.boughtHouse2 = False
+        self.boughtHouse3 = False
+        self.boughtHouse4 = False
+        self.boughtHotel = False
 
         self.bought = False
 
-    def Buy(self, name):
-        for index, title, cost, rent in PROPERTIES.iterrows():
-            if (title['Title'] == name):
+    def BuyProperty(self, name, cash):
+        for index, prop in PROPERTIES.iterrows():
+            if (prop['Title'] == name):
+                prop['Bought?'] = True
+                
+                cost = prop['Cost']
+                rent = prop['Rent']
+                mortgage = prop['Mortgage']
+                group = prop['Group']
+                bought = prop['Bought?']
+                
                 # Add each property value to an array if the property is bought
-                arrProperties.append(name)
+                self.name = name
+                self.cost = cost
+                self.rent = rent
+                self.mortgage = mortgage
+                self.group = group
+                self.bought = bought
+                
+                arrProperties.append(self.name)
+                arrProperties.append(self.cost)
+                arrProperties.append(self.rent)
+                arrProperties.append(self.mortgage)
+                arrProperties.append(self.group)
+                arrProperties.append(self.bought)
+
+                cash = cash - cost
+
+                print("[GAME MANAGER]: {} has now been bought. ".format(self.name))
+
+                return cash
 
 
 # DEBUGGING
 p = Property()
-p.Buy("Mediterranean Ave. ")
-print(arrProperties)
+props = ["Mediterranean Ave. ", "Baltic Ave."]
+for i in range(2):
+    cash = p.BuyProperty(props[i], cash)
+print(arrProperties, cash)
