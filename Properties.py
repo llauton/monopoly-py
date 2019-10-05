@@ -31,6 +31,7 @@ class Property:
         self.rent = 0
         self.mortgage = 0
         self.group = ""
+        self.numOfHouses = 0
 
         self.boughtHouse1 = False      
         self.boughtHouse2 = False
@@ -71,6 +72,14 @@ class Property:
                 print("[GAME MANAGER]: {} has now been bought. ".format(self.name))
 
                 return cash
+
+        def BuyHouse(self, name, cash):
+            for index, prop in PROPERTIES.iterrows():
+                cost = prop['1House']
+                if (prop['Title'] == name and prop['Bought?'] == True):
+                    self.numOfHouses += 1
+                    
+                    cash = cash - cost
 
 
 # DEBUGGING
